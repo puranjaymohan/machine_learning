@@ -21,12 +21,12 @@ Y=Y.reshape(Y.shape[0])
 
 one=-1*np.ones((Y.shape[0],1))
 X1=np.array([df['b']], dtype='float64')
-X1=preprocessing.normalize(X1)
+#X1=preprocessing.normalize(X1)
 X1=X1.T
 
 
 X2=np.array([df['a']], dtype='float64')
-X2=preprocessing.normalize(X2)
+#X2=preprocessing.normalize(X2)
 X2=X2.T
 
 X=np.concatenate((X2,X1),axis=1)
@@ -40,11 +40,16 @@ def plot_classifier(svc):
     """
     w = svc.coef_[0]
     a = -w[0] / w[1]
-    xx = np.linspace(0.05, 0.12)
+    #xx = np.linspace(0.05, 0.12)
 
-    #xx = np.linspace(4, 8)
+    xx = np.linspace(4, 8)
     yy = a * xx - (svc.intercept_[0]) / w[1] #equation of line of best fit(similiar to y=mx+c)
     plt.plot(xx, yy, 'k-')
+    margin = 1 / np.sqrt(np.sum(svc.coef_ ** 2))
+    yy_down = yy - np.sqrt(1 + a ** 2) * margin
+    yy_up = yy + np.sqrt(1 + a ** 2) * margin
+    plt.plot(xx,yy_down, 'k-')
+    plt.plot(xx,yy_up, 'k-')
     plt.scatter(X[:,0],X[:,1],c=y)
     plt.show()
 
