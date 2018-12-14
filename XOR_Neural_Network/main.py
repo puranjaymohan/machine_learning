@@ -12,11 +12,11 @@ Y=np.array([[0],
 
 
 def activate(Z):
-    Z= np.concatenate(((1/(1+np.exp(Z))),np.ones((Z.shape[0],1))),axis=1)
+    Z= np.concatenate(((1/(1+np.exp(-Z))),np.ones((Z.shape[0],1))),axis=1)
     return Z
 
 def sigmoidgrad(A):
-    s=1/(1+np.exp(A))
+    s=1/(1+np.exp(-A))
     return s*(1-s)
 
 def sigmoid(A):
@@ -43,7 +43,7 @@ for i in range(50000):
         a1, z1, a2, z2, hyp = forward(X[s,:].reshape(1,3), theta1, theta2)
         error=Y[s]-hyp
         delta2=(error*sigmoidgrad(z2)*a2).T
-        delta1=-(error*sigmoidgrad(z2)*np.multiply(theta2[0:2,:],sigmoidgrad(z1).T).dot(a1)).T
+        delta1=(error*sigmoidgrad(z2)*np.multiply(theta2[0:2,:],sigmoidgrad(z1).T).dot(a1)).T
         #Gradient Checking code
         #a1, z1, a2, z2, hyp1 = forward(X[s,:].reshape(1,3), theta1, theta2+0.001)
         #a1, z1, a2, z2, hyp2 = forward(X[s,:].reshape(1,3), theta1, theta2-0.001)
