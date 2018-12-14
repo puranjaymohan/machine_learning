@@ -11,7 +11,7 @@ def sigmoid(z):
 
 def loss(X,theta,Y) :
     scores = np.dot(X, theta.T)
-    ll = np.sum( Y*scores - np.log(1 + np.exp(scores)) )
+    ll = np.sum( Y.reshape(4,1)*scores - np.log(1 + np.exp(scores)) )
     return ll
 
 
@@ -38,8 +38,8 @@ X=np.concatenate((X,ones),axis=1)
 print(X)
 
 
-a=0.1
-it=100000
+a=1
+it=500000
 theta=np.array([[0,0,0,0]])
 print(theta.shape,X.shape,Y.shape)
 theta=maxima(X,Y,theta,a,it)
@@ -48,7 +48,9 @@ print(theta)
 xx, yy =np.meshgrid(np.arange(-1,2,0.5), np.arange(-1,2,0.5))
 
 
-z=(-theta[0,0]*xx-theta[0,1]*yy-theta[0,3])/theta[0,2]
+z=((-theta[0,0]*xx-theta[0,1]*yy-theta[0,3])/theta[0,2])
+
+
 
 ###########
 
