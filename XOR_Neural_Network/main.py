@@ -20,7 +20,7 @@ def sigmoidgrad(A):
     return s*(1-s)
 
 def sigmoid(A):
-    return 1/(1+np.exp(A))
+    return 1/(1+np.exp(-A))
 
 theta1 = (np.random.random(( 3, 2)))
 theta2 = (np.random.random((3, 1)))
@@ -36,14 +36,14 @@ def forward(X,theta1,theta2):
 
 ###Back Propagation###
 
-lr=1;
+lr=5;
 mse=[]
 for i in range(50000):
     for s in range(X.shape[0]):    
         a1, z1, a2, z2, hyp = forward(X[s,:].reshape(1,3), theta1, theta2)
         error=Y[s]-hyp
-        delta2=(error*sigmoidgrad(z2)*a2).T
-        delta1=(error*sigmoidgrad(z2)*np.multiply(theta2[0:2,:],sigmoidgrad(z1).T).dot(a1)).T
+        delta2=-(error*sigmoidgrad(z2)*a2).T
+        delta1=-(error*sigmoidgrad(z2)*np.multiply(theta2[0:2,:],sigmoidgrad(z1).T).dot(a1)).T
         #Gradient Checking code
         #a1, z1, a2, z2, hyp1 = forward(X[s,:].reshape(1,3), theta1, theta2+0.001)
         #a1, z1, a2, z2, hyp2 = forward(X[s,:].reshape(1,3), theta1, theta2-0.001)
