@@ -12,7 +12,7 @@ def sigmoid(z):
 def loss(X,theta,Y) :
     scores = np.dot(X, theta.T)
     ll = np.sum( Y.reshape(4,1)*scores - np.log(1 + np.exp(scores)) )
-    return ll
+    return -ll
 
 
 def maxima(X,Y,theta,a,it):
@@ -38,31 +38,32 @@ X=np.concatenate((X,ones),axis=1)
 print(X)
 
 
-a=1
-it=500000
+a=9
+it=800000
 theta=np.array([[0,0,0,0]])
 print(theta.shape,X.shape,Y.shape)
 theta=maxima(X,Y,theta,a,it)
 print(theta)
 
-xx, yy =np.meshgrid(np.arange(-1,2,0.5), np.arange(-1,2,0.5))
+xx, yy =np.meshgrid(np.arange(-0.2,1.2,0.01), np.arange(-0.2,1.2,0.01))
 
 
-z=((-theta[0,0]*xx-theta[0,1]*yy-theta[0,3])/theta[0,2])
-
+z=+theta[0,0]*xx.ravel()+theta[0,1]*yy.ravel()+theta[0,3]+theta[0,2]*(np.multiply(xx,yy).ravel())
 
 
 ###########
 
 
 fig = plt.figure()
-ax = Axes3D(fig)
-ax.scatter(X[0:2,0],X[0:2,1],X[0:2,2],c='r',marker='x')
 
-ax.scatter(X[2:,0],X[2:,1],X[2:,2],c='b',marker='o')
+plt.scatter(xx.ravel(),yy.ravel(),c=z)
 
-ax.plot_surface(xx,yy,z,alpha=0.9,cmap=cm.summer)
-ax.set_zlim(0,1.2)
+plt.scatter(X[0:2,0],X[0:2,1],c='r',marker='x',s=40)
+
+plt.scatter(X[2:,0],X[2:,1],c='b',marker='o',s=40)
+
+
+
 
 plt.show()
 
