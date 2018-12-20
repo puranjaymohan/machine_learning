@@ -36,16 +36,16 @@ mse=[]
 for i in range(10000):
    
     a1, z1, a2, z2, hyp = forward(X, theta1, theta2,b1,b2)
-    dw2=a2.dot((hyp-Y).T)
-    dw1=np.multiply(theta2.dot(hyp-Y),sigmoidgrad(z1)).dot(a1.T)
-    db2=hyp-Y
-    db1=np.multiply(theta2.dot(hyp-Y),sigmoidgrad(z1))
+    dw2=(1/X.shape[1])*a2.dot((hyp-Y).T)
+    dw1=(1/X.shape[1])*np.multiply(theta2.dot(hyp-Y),sigmoidgrad(z1)).dot(a1.T)
+    db2=(1/X.shape[1])*(hyp-Y)
+    db1=(1/X.shape[1])*np.multiply(theta2.dot(hyp-Y),sigmoidgrad(z1))
     #Gradient Checking code
     #a1, z1, a2, z2, hyp1 = forward(X, theta1, theta2,b1+0.001,b2)
     #a1, z1, a2, z2, hyp2 = forward(X, theta1, theta2,b1-0.001,b2)
     
-    #print(np.sum(db1),'--')
-    #print( np.sum((-(Y*(np.log(hyp1))+(1-Y)*(np.log(1-hyp1))))-(-(Y*(np.log(hyp2))+(1-Y)*(np.log(1-hyp2)))),axis=1)/0.002 )
+    #print(np.sum(db1),'<- Calculated Error')
+    #print( (1/X.shape[1])*np.sum((-(Y*(np.log(hyp1))+(1-Y)*(np.log(1-hyp1))))-(-(Y*(np.log(hyp2))+(1-Y)*(np.log(1-hyp2)))),axis=1)/0.002 )
 
     theta1 -= lr*dw1
     theta2 -= lr*dw2
