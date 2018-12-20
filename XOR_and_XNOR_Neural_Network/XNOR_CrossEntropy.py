@@ -7,7 +7,7 @@ Y=np.array([[1,0,0,1]])
 
 
 
-b1=np.random.random()
+b1=np.random.random((2,1))
 b2=np.random.random()
 
 def sigmoidgrad(A):
@@ -31,9 +31,9 @@ def forward(X,theta1,theta2,b1,b2):
 
 ###Back Propagation###
 
-lr=3;
+lr=1;
 mse=[]
-for i in range(1900):
+for i in range(10000):
    
     a1, z1, a2, z2, hyp = forward(X, theta1, theta2,b1,b2)
     dw2=a2.dot((hyp-Y).T)
@@ -49,7 +49,8 @@ for i in range(1900):
 
     theta1 -= lr*dw1
     theta2 -= lr*dw2
-    b1 -= lr*np.sum(db1)
+    
+    b1 -= lr*np.sum(db1,axis=1).reshape((2,1))
     b2 -= lr*np.sum(db2)
     
     
